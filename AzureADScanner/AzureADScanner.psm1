@@ -21,22 +21,22 @@ class GPOScriptLoader {
     [bool]$m_wasUserTokenUpdated
     [bool]$m_wasConfigurationLoadedFromInitFile
     [bool]$m_wasConfigurationUpdated
-    [string]$GPO_SCRIPT_FILENAME = "install_config.ini"
+    [string]$InstallConfig
     [string]$m_fullPathToGPOScript
 
-    GPOScriptLoader([ActiveDirectoryScanner.IResourceManager]$resourceManager, [ActiveDirectoryScanner.IConfiguration]$configuration) {
+    GPOScriptLoader([ActiveDirectoryScanner.IResourceManager]$resourceManager, [ActiveDirectoryScanner.IConfiguration]$configuration, [string]$InstallConfig) {
         $this.m_dbMapper = $resourceManager.DatabaseMapper
         $this.m_resourceManager = $resourceManager
         $this.m_configuration = $configuration
-        $this.m_fullPathToGPOScript = [System.IO.Path]::Combine($resourceManager.Configuration.LocalExecPath, $this.GPO_SCRIPT_FILENAME)
+        $this.GPO_SCRIPT_FILENAME = $InstallConfig
+        $this.m_fullPathToGPOScript = $this.GPO_SCRIPT_FILENAME
     }
 
     [void]RemoveConfigurationFile() {
         try {
             if ($($this.m_wasConfigurationLoadedFromInitFile)) {
                 $this.m_resourceManager.Logger.Info("Deleting init config file")
-                # Temporary
-                Rename-Item -Path $this.m_fullPathToGPOScript -NewName "$($this.m_fullPathToGPOScript).old"
+                Remove-Item -Path $this.m_fullPathToGPOScript -Force
                 $this.m_wasConfigurationLoadedFromInitFile = $false
             }
         }
@@ -224,6 +224,11 @@ function Invoke-AzureADSync {
         [object]
         $Computers,
 
+        # Path to install_config.ini
+        [Parameter()]
+        [string]
+        $InstallConfig = $(Join-Path -Path $(Split-Path -Parent $($script:PSScriptRoot)) -ChildPath "install_config.ini"),
+
         # Maximum number of computers to synchronize
         [Parameter()]
         [int]
@@ -277,7 +282,7 @@ function Invoke-AzureADSync {
 
             $databaseMapper = [ActiveDirectoryScanner.DatabaseMapper]::new($resourceManager)
             $resourceManager.DatabaseMapper = $databaseMapper
-            $gPOScriptLoader = [GPOScriptLoader]::new($resourceManager, $configuration)
+            $gPOScriptLoader = [GPOScriptLoader]::new($resourceManager, $configuration, $InstallConfig)
             $ConnectionConfiguration = $gPOScriptLoader.LoadConfiguration()
             $grpcClient = [ActiveDirectoryScanner.GrpcClient.GrpcClient]::new($ConnectionConfiguration, $resourceManager)
         
