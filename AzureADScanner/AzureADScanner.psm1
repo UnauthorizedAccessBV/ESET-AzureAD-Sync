@@ -184,14 +184,9 @@ function ParseArguments ([bool]$Debug = $false) {
     $configuration.RequestInterval = $RequestInterval
     $configuration.Addonly = $Addonly
     $configuration.Token = $Token
-    $configuration.SyncDisabledComputers = $SyncDisabledComputers
 
     if ($configuration.AddOnly) {
         $resourceManager.Logger.Info("AD Scanner will only import computers to the server")
-    }
-
-    if ($configuration.SyncDisabledComputers) {
-        $resourceManager.Logger.Info("Synchronizing also disabled computers due to commandline argument")
     }
 }
 
@@ -243,10 +238,6 @@ function Invoke-AzureADSync {
         [Parameter()]
         [string]
         $Token,
-
-        [Parameter()]
-        [switch]
-        $SyncDisabledComputers = $false,
 
         [Parameter()]
         [switch]
