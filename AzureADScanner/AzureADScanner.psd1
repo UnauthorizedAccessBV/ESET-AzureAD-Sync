@@ -55,9 +55,9 @@
 
     # Assemblies that must be loaded prior to importing this module
     RequiredAssemblies = @(
-        'ADScanner\ActiveDirectoryScanner.dll'
-        'ADScanner\NLog.dll'
-        'ADScanner\Microsoft.Extensions.Configuration.Ini.dll'
+        'ActiveDirectoryScanner\ActiveDirectoryScanner.dll'
+        'ActiveDirectoryScanner\NLog.dll'
+        'ActiveDirectoryScanner\Microsoft.Extensions.Configuration.Ini.dll'
     )
 
     # Script files (.ps1) that are run in the caller's environment prior to importing this module.
