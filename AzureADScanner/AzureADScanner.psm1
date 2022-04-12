@@ -219,10 +219,17 @@ function EnsureDirectory {
 function Invoke-AzureADSync {
     [CmdletBinding()]
     param (
+        # Object containing the computers to synchronize
+        [Parameter(Mandatory = $True, ValueFromPipeline = $True, Position = 1)]
+        [object]
+        $Computers,
+
+        # Maximum number of computers to synchronize
         [Parameter()]
         [int]
         $MaxComputers = 100,
 
+        # Child group to place synchronized computers in
         [Parameter()]
         [string]
         $GroupName,
@@ -231,24 +238,23 @@ function Invoke-AzureADSync {
         [int]
         $RequestInterval = 60,
 
+        # Do not delete old computers
         [Parameter()]
         [switch]
         $Addonly,
 
+        # Synchronization token
         [Parameter()]
         [string]
         $Token,
 
+        # Force synchronization
         [Parameter()]
         [switch]
-        $Force,
-
-        [Parameter(Mandatory = $True, ValueFromPipeline = $True)]
-        [object]
-        $Computers
-
+        $Force     
     )
 
+    # Small hack to allow pipelines to work correctly
     Begin {
         $ComputerObj = @()
     }
@@ -302,11 +308,17 @@ function Invoke-AzureADSync {
                     throw $_
                 }
             }
+            else {
+                $resourceManager.Logger.Warn("No token available, not synchronizing")
+            }
+
             $gPOScriptLoader.RemoveConfigurationFile()
             $resourceManager.Logger.Info("Synchronization ended.")
+
             if ($false -eq $flag) {
                 $resourceManager.Logger.Warn("Not all computers were synchronize. See above for issues with individual computers")
             }
+            
             $gPOScriptLoader.UpdateConfiguration($ConnectionConfiguration)
             $databaseMapper.SaveChanges() | Out-Null
         }
