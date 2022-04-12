@@ -53,13 +53,13 @@ A more advanced example can be found in the [ADSync.ps1](ADSync.ps1) file.
 
 The following parameters are currently supported:
 
-| **Name**               |              **Description**               |          **Default**          | **Required** |                  **Remarks** |
-| ---------------------- | :----------------------------------------: | :---------------------------: | :----------: | ---------------------------: |
-| **`-Computers`**       | Object containing computers to synchronize |           **`''`**            |   **Yes**    |            Pipeline variable |
-| **`-InstallConfig`**   |      Path to **`install_config.ini`**      | **`$PWD\install_config.ini`** |      No      |                              |
-| **`-MaxComputers`**    | Maximum number of computers to synchronize |           **`100`**           |      No      |                              |
-| **`-GroupName`**       |     Child group to place computers in      |           **`''`**            |      No      |                              |
-| **`-RequestInterval`** |              Request interval              |           **`60`**            |      No      |                              |
-| **`-Addonly`**         |   Only add new computers, do not delete    |          **`false`**          |      No      |                              |
-| **`-Token`**           |               AD Sync token                |           **`''`**            |      No      | Only required for first run. |
-| **`-Force`**           |            Force synchonization            |          **`false`**          |      No      |                              |
+| **Name**               |              **Description**               |        **Default**         | **Required** |                  **Remarks** |
+| ---------------------- | :----------------------------------------: | :------------------------: | :----------: | ---------------------------: |
+| **`-Computers`**       | Object containing computers to synchronize |          **`''`**          |   **Yes**    |            Pipeline variable |
+| **`-InstallConfig`**   |      Path to **`install_config.ini`**      | **`.\install_config.ini`** |      No      |                              |
+| **`-MaxComputers`**    | Maximum number of computers to synchronize |         **`100`**          |      No      |                              |
+| **`-GroupName`**       |     Child group to place computers in      |          **`''`**          |      No      |                              |
+| **`-RequestInterval`** |              Request interval              |          **`60`**          |      No      |                              |
+| **`-Addonly`**         |   Only add new computers, do not delete    |        **`false`**         |      No      |                              |
+| **`-Token`**           |               AD Sync token                |          **`''`**          |      No      | Only required for first run. |
+| **`-Force`**           |            Force synchonization            |        **`false`**         |      No      |                              |
