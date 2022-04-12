@@ -1,0 +1,3 @@
+AzureADScanner/ADScanner/**
+!AzureADScanner/ADScanner/.gitkeep
+/*.json
