@@ -1,4 +1,7 @@
-# Classes
+# ---------------------------------------- #
+# Classes                                  #
+# ---------------------------------------- #
+
 class ResourceManager : ActivedirectoryScanner.IResourceManager {
     [NLog.Logger]$Logger
     [ActiveDirectoryScanner.IConfiguration]$Configuration
@@ -170,6 +173,9 @@ class ADScannerComputers : ActiveDirectoryScanner.ADScannerComputers {
     }
 }
 
+# ---------------------------------------- #
+# Internal functions                       #
+# ---------------------------------------- #
 function ParseArguments ([bool]$Debug = $false) {
     $resourceManager.Logger.Trace("Parsing input values")
     $configuration.DebugMode = $Debug
@@ -212,6 +218,9 @@ function EnsureDirectory {
     } 
 }
 
+# ---------------------------------------- #
+# Public functions                         #
+# ---------------------------------------- #
 function Invoke-AzureADSync {
     [CmdletBinding()]
     param (
@@ -267,7 +276,7 @@ function Invoke-AzureADSync {
 
             $Debug = ($true -eq $MyInvocation.BoundParameters.Debug.IsPresent)
             ParseArguments($Debug)
-            #EnsureDirectory
+            EnsureDirectory
 
             $databaseMapper = [ActiveDirectoryScanner.DatabaseMapper]::new($resourceManager)
             $resourceManager.DatabaseMapper = $databaseMapper
